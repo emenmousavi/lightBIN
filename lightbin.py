@@ -4,17 +4,17 @@ import random
 def generate_bin(card_type):
     while True:
         if card_type == "amex":
-            bin_number = "37" + str(random.randint(0, 9**10-1)).zfill(10)
+            bin_number = "37" + str(random.randint(0, 9**4-1)).zfill(4)
         elif card_type == "visa":
-            bin_number = "4" + str(random.randint(0, 9**11-1)).zfill(11)
+            bin_number = "4" + str(random.randint(0, 9**5-1)).zfill(5)
         elif card_type == "mastercard":
-            bin_number = "5" + str(random.randint(1, 5)) + str(random.randint(0, 9**9-1)).zfill(9)
+            bin_number = "5" + str(random.randint(1, 5)) + str(random.randint(0, 9**3-1)).zfill(3) + str(random.randint(0, 9**2-1)).zfill(2)
         elif card_type == "dinersclub":
-            bin_number = random.choice(["300", "301", "302", "303", "304", "305", "36", "38"]) + str(random.randint(0, 9**10-1)).zfill(10)
+            bin_number = random.choice(["300", "301", "302", "303", "304", "305", "36", "38"]) + str(random.randint(0, 9**3-1)).zfill(3) + str(random.randint(0, 9**3-1)).zfill(3)
         elif card_type == "discover":
-            bin_number = random.choice(["6011", "65"]) + str(random.randint(0, 9**12-1)).zfill(12)
+            bin_number = random.choice(["6011", "65"]) + str(random.randint(0, 9**4-1)).zfill(4) + str(random.randint(0, 9**2-1)).zfill(2)
         elif card_type == "jcb":
-            bin_number = "35" + str(random.randint(0, 9**12-1)).zfill(12)
+            bin_number = "35" + str(random.randint(0, 9**4-1)).zfill(4) + str(random.randint(0, 9**2-1)).zfill(2)
         else:
             print("Invalid card type")
             return None
