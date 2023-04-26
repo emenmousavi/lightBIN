@@ -30,7 +30,7 @@ def generate_bin(card_type):
             print(f"Type: {type_name}")
             brand_name = response.json().get('brand', 'None')
             print(f"Brand: {brand_name}")
-            if f"Brand: {response.json()['brand']}" == 'false':
+            if not response.json().get('prepaid'):
                 print("Prepaid: No")
             else:
                 print("Prepaid: Yes")
