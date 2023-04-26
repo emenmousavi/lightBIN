@@ -9,7 +9,7 @@ LightBIN is a Python program that generates live and working BIN (Bank Identific
 
 ## Installation
 To use LightBIN, first make sure you have Python 3.6 or higher installed. Then, you can install the necessary dependencies by running:
-```bash
+```
 pip install -r requirements.txt
 ```
 
