@@ -16,7 +16,7 @@ pip install -r requirements.txt
 ## Usage
 To generate a BIN number, run the following command:
 ```python
-pip install -r requirements.txt
+python lightbin.py
 ```
 
 The program will prompt you to enter the type of credit card you want to generate a BIN for. Once you have entered a valid card type, the program will generate a BIN number and check it against the binlist.net database to ensure that it is live and working. If the BIN is valid, the program will print out the BIN number, the country associated with the BIN, the bank that issued the card, the card type, and whether or not the card is a prepaid card.
