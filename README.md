@@ -1,6 +1,6 @@
 # lightBIN
 LightBIN is a Python program that generates live and working BIN (Bank Identification Number) numbers for credit cards. The program can generate BIN numbers from all countries in the world, and allows the user to choose from the following credit card types:
-- American Express (amex)
+- American Express (AMEX)
 - Visa
 - Mastercard
 - Diners Club
