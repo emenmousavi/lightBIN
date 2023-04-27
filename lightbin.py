@@ -22,13 +22,13 @@ def generate_bin(card_type):
         response = requests.get(f"https://lookup.binlist.net/{bin_number}")
         if response.status_code == 200:
             print(f"Generated BIN: {bin_number}")
-            country_name = response.json()['country'].get('name', 'None')
+            country_name = response.json()['country'].get('name', '-')
             print(f"Country: {country_name}")
-            bank_name = response.json()['bank'].get('name', 'None')
+            bank_name = response.json()['bank'].get('name', '-')
             print(f"Bank: {bank_name}")
             type_name = response.json().get('type', '-')
             print(f"Type: {type_name}")
-            brand_name = response.json().get('brand', 'None')
+            brand_name = response.json().get('brand', '-')
             print(f"Brand: {brand_name}")
             if not response.json().get('prepaid'):
                 print("Prepaid: No")
