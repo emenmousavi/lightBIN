@@ -1,0 +1,4 @@
+http.client
+tabulate
+termcolor
+json
