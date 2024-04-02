@@ -1,41 +1,40 @@
-import requests
-import random
+import http.client
+from tabulate import tabulate
+from termcolor import colored
+import json
 
-def generate_bin(card_type):
-    while True:
-        if card_type == "amex":
-            bin_number = "37" + str(random.randint(0, 9**4-1)).zfill(4)
-        elif card_type == "visa":
-            bin_number = "4" + str(random.randint(0, 9**5-1)).zfill(5)
-        elif card_type == "mastercard":
-            bin_number = "5" + str(random.randint(1, 5)) + str(random.randint(0, 9**3-1)).zfill(3) + str(random.randint(0, 9**2-1)).zfill(2)
-        elif card_type == "dinersclub":
-            bin_number = random.choice(["300", "301", "302", "303", "304", "305", "36", "38"]) + str(random.randint(0, 9**3-1)).zfill(3) + str(random.randint(0, 9**3-1)).zfill(3)
-        elif card_type == "discover":
-            bin_number = random.choice(["6011", "65"]) + str(random.randint(0, 9**4-1)).zfill(4) + str(random.randint(0, 9**2-1)).zfill(2)
-        elif card_type == "jcb":
-            bin_number = "35" + str(random.randint(0, 9**4-1)).zfill(4) + str(random.randint(0, 9**2-1)).zfill(2)
-        else:
-            print("Invalid card type")
-            return None
-        
-        response = requests.get(f"https://lookup.binlist.net/{bin_number}")
-        if response.status_code == 200:
-            print(f"Generated BIN: {bin_number}")
-            country_name = response.json()['country'].get('name', '-')
-            print(f"Country: {country_name}")
-            bank_name = response.json()['bank'].get('name', '-')
-            print(f"Bank: {bank_name}")
-            type_name = response.json().get('type', '-')
-            print(f"Type: {type_name}")
-            brand_name = response.json().get('brand', '-')
-            print(f"Brand: {brand_name}")
-            if not response.json().get('prepaid'):
-                print("Prepaid: No")
-            else:
-                print("Prepaid: Yes")
-            break
+def get_bin_info(bin_number):
+    conn = http.client.HTTPSConnection("neutrinoapi-bin-lookup.p.rapidapi.com")
 
-if __name__ == '__main__':
-    card_type = input("Type the Credit Card Type: (amex/visa/mastercard/dinersclub/discover/jcb) ")
-    generate_bin(card_type.lower())
+    payload = f"bin-number={bin_number}&customer-ip=60.234.81.148"
+
+    headers = {
+        'content-type': "application/x-www-form-urlencoded",
+        'X-RapidAPI-Key': "87f0b316e0msh4395b1db710fb7ep19b3ddjsnc06bdf0b304b",
+        'X-RapidAPI-Host': "neutrinoapi-bin-lookup.p.rapidapi.com"
+    }
+
+    conn.request("POST", "/bin-lookup", payload, headers)
+
+    res = conn.getresponse()
+    data = res.read()
+
+    return data.decode("utf-8")
+
+def format_bin_info(bin_info):
+    bin_info_dict = json.loads(bin_info)
+    table_data = []
+    for key, value in bin_info_dict.items():
+        table_data.append([key, value])
+    return table_data
+
+def main():
+    bin_number = input("Enter the BIN number to get information: ")
+    bin_info = get_bin_info(bin_number)
+    formatted_info = format_bin_info(bin_info)
+    
+    headers = ["Attribute", "Value"]
+    print(colored(tabulate(formatted_info, headers=headers, tablefmt="fancy_grid"), "cyan"))
+
+if __name__ == "__main__":
+    main()
